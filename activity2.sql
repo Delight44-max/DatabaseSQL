@@ -247,7 +247,120 @@ FROM INVENTORY I
 JOIN WAREHOUSE W
     ON I.WarehouseID = W.WarehouseID
 WHERE W.ManagerName = 'Lucille Smith'
-GROUP BY I.WarehouseID;
+GROUP BY I.WarehouseID; 
+
+-- 2.51
+SELECT 
+    W.WarehouseID,
+    W.WarehouseCity,
+    W.WarehouseState,
+    I.SKU,
+    I.MANAGER,
+    I.SKU_Description
+FROM WAREHOUSE W
+JOIN  SKU_DATA I
+    ON W.WarehouseID = I.WarehouseID
+WHERE MANAGER = 'Lucille Smith';
+
+-- 2.52
+SELECT 
+    WarehouseID,
+    QuantityOnOrder,
+    SUM(QuantityOnOrder) AS TotalItemsOnOrder,
+    SUM(QuantityOnHand) AS TotalItemsOnHand
+FROM INVENTORY
+GROUP BY WarehouseID, QuantityOnOrder;
+
+-- 2.53
+-- You cannot use a subquery because:
+
+-- The question requires grouping (using GROUP BY)
+
+-- A subquery returns a single value or a column, not grouped summaries
+-- You need aggregates (SUM) grouped by multiple columns directly in the main query
+-- A subquery cannot replace the GROUP BY requirement here
+
+-- 2.54
+-- JOIN Combines two tables side-by-side
+-- SUBQUERY Return a query inside another query
+
+-- 2.55
+SELECT 
+    W.WarehouseID,
+    W.WarehouseCity,
+    W.WarehouseState,
+    I.SKU,
+    I.SKU_Description,
+    I.QuantityOnHand,
+    I.QuantityOnOrder
+FROM WAREHOUSE W
+LEFT JOIN INVENTORY I
+    ON W.WarehouseID = I.WarehouseID;
+    
+    
+    -- 2.56
+    
+SELECT SKU, SKU_Description, Department
+FROM CATALOG_SKU_2016
+
+UNION
+
+SELECT SKU, SKU_Description, Department
+FROM CATALOG_SKU_2017;
+
+-- 2.57
+SELECT SKU, SKU_Description, Department
+FROM CATALOG_SKU_2016
+WHERE CatalogPage = 'Yes'
+
+UNION
+
+SELECT SKU, SKU_Description, Department
+FROM CATALOG_SKU_2017
+WHERE CatalogPage  = 'Yes';
+
+-- 2.58
+SELECT 
+    C16.SKU,
+    C16.SKU_Description,
+    C16.Department
+FROM CATALOG_SKU_2016 C16
+INNER JOIN CATALOG_SKU_2017 C17
+    ON C16.SKU = C17.SKU;
+    
+    -- 2.59
+    
+    SELECT 
+    C16.SKU,
+    C16.SKU_Description,
+    C16.Department
+FROM CATALOG_SKU_2016 C16
+JOIN CATALOG_SKU_2017 C17
+    ON C16.SKU = C17.SKU
+WHERE C16.CatalogPage = 'Yes'
+  AND C17.CatalogPage = 'Yes';
+  
+  -- 2.60
+  SELECT SKU, SKU_Description, Department
+FROM CATALOG_SKU_2016
+WHERE SKU NOT IN (
+    SELECT SKU FROM CATALOG_SKU_2017
+);
+
+
+    
+    
+
+
+
+
+    
+
+
+
+ 
+
+
 
 
 
